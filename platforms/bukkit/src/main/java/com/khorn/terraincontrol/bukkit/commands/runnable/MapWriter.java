@@ -54,25 +54,25 @@ public class MapWriter implements Runnable
 
     /**
      * Gets the colors of all biomes, indexed by biome id.
-     * 
+     *
      * @param world The world to get the colors from. Doesn't have to be
      *            managed by Terrain Control.
      * @return The colors, indexed by biome id.
      */
     private int[] getColors(World world)
     {
-        TerrainControl.log(LogMarker.TRACE, "BukkitWorld::UUID:: {}", world.getDataManager().getUUID());
+        TerrainControl.log(LogMarker.TRACE, "BukkitWorld::UUID:: " + world.getDataManager().getUUID());
         LocalWorld bukkitWorld = WorldHelper.toLocalWorld(world);
         if (bukkitWorld == null)
         {
-            TerrainControl.log(LogMarker.WARN, "BukkitWorld is null :: Make sure you add `{}` to bukkit.yml", (Object) world.getWorld()
-                    .getName());
+            TerrainControl.log(LogMarker.WARN,
+                    "BukkitWorld is null: make sure you add `" + world.getWorld().getName() + "` to bukkit.yml");
             return defaultColors;
         }
 
         LocalBiome[] biomes = bukkitWorld.getConfigs().getBiomeArray();
         int[] colors = new int[biomes.length];
-        TerrainControl.log(LogMarker.TRACE, "BukkitWorld settings biomes.length::{}", biomes.length);
+        TerrainControl.log(LogMarker.TRACE, "BukkitWorld settings biomes.length::" + biomes.length);
 
         for (LocalBiome biome : biomes)
         {
@@ -168,8 +168,9 @@ public class MapWriter implements Runnable
                             temperatureImage.setRGB(imageX, imageY, temperatureColor.getRGB());
                         } catch (ArrayIndexOutOfBoundsException ex)
                         {
-                            TerrainControl.log(LogMarker.TRACE, "BiomeBuff Idx::{}<{}x/{}z>, Len::{}, ID::{} | Colors Len::{}",
-                                    new Object[] {arrayPosition, x1, z1, biomeBuffer.length, WorldHelper.getGenerationId(biomeBuffer[arrayPosition]), colors.length});
+                            TerrainControl.log(LogMarker.WARN,
+                                    "Error writing image. BiomeBuff Idx::" + arrayPosition + "<" + x1 + "x/" + z1 + "z>, Len::" + biomeBuffer.length + ", ID::" + WorldHelper.getGenerationId(
+                                            biomeBuffer[arrayPosition]) + " | Colors Len::" + colors.length);
                         }
                     }
                 }
@@ -190,8 +191,7 @@ public class MapWriter implements Runnable
         } catch (IOException e)
         {
             sender.sendMessage(BaseCommand.ERROR_COLOR + "Exception while writing images: " + e.getLocalizedMessage());
-            TerrainControl.log(LogMarker.ERROR, "Failed to write image.");
-            TerrainControl.printStackTrace(LogMarker.ERROR, e);
+            TerrainControl.log(LogMarker.ERROR, "Failed to write image.", e);
         }
 
         MapWriter.isWorking = false;
@@ -200,7 +200,7 @@ public class MapWriter implements Runnable
     /**
      * Gets the temperature color of a single biome. Starts at blue, goes to
      * green, red and darker red for increasing temperatures.
-     * 
+     *
      * @param biome The biome to get the temperature from.
      * @param world The world the biome is in. May be null if the world isn't
      *            managed by Terrain Control.

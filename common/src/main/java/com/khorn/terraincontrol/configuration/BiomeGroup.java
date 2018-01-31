@@ -27,7 +27,7 @@ public final class BiomeGroup extends ConfigFunction<WorldConfig>
     private int groupRarity;
     private int generationDepth = 0;
     private float avgTemp = 0;
-    private Map<String, LocalBiome> biomes = new LinkedHashMap<String, LocalBiome>(32);
+    private Map<String, LocalBiome> biomes = new LinkedHashMap<>(32);
 
     /**
      * Variable used by the the ungrouped biome generator. This generator
@@ -126,7 +126,7 @@ public final class BiomeGroup extends ConfigFunction<WorldConfig>
      */
     protected List<String> readBiomes(List<String> strings, int start) throws InvalidConfigException
     {
-        return new ArrayList<String>(strings.subList(start, strings.size()));
+        return new ArrayList<>(strings.subList(start, strings.size()));
     }
 
     /**
@@ -153,7 +153,7 @@ public final class BiomeGroup extends ConfigFunction<WorldConfig>
                 continue;
             }
             // Invalid biome name, remove
-            TerrainControl.log(LogMarker.WARN, "Invalid biome name {} in biome group {}", biomeName, this.name);
+            TerrainControl.log(LogMarker.WARN, "Invalid biome name " + biomeName + " in biome group " + this.name);
             it.remove();
         }
     }
@@ -221,7 +221,7 @@ public final class BiomeGroup extends ConfigFunction<WorldConfig>
     public SortedMap<Integer, LocalBiome> getDepthMap(int depth)
     {
         int cumulativeBiomeRarity = 0;
-        TreeMap<Integer, LocalBiome> map = new TreeMap<Integer, LocalBiome>();
+        TreeMap<Integer, LocalBiome> map = new TreeMap<>();
         for (Entry<String, LocalBiome> biome : this.biomes.entrySet())
         {                                                           //>>	When depth given is negative, include all biomes in group
             if (biome.getValue().getBiomeConfig().biomeSize == depth || depth < 0)

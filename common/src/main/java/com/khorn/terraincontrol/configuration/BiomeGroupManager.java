@@ -17,8 +17,8 @@ public final class BiomeGroupManager
 
     public static final int MAX_BIOME_GROUP_COUNT = 127;
     private int cumulativeGroupRarity = 0;
-    private Map<String, BiomeGroup> nameToGroup = new LinkedHashMap<String, BiomeGroup>(4);
-    private Map<Integer, BiomeGroup> idToGroup = new LinkedHashMap<Integer, BiomeGroup>(4);
+    private Map<String, BiomeGroup> nameToGroup = new LinkedHashMap<>(4);
+    private Map<Integer, BiomeGroup> idToGroup = new LinkedHashMap<>(4);
 
     public BiomeGroupManager()
     {
@@ -38,9 +38,8 @@ public final class BiomeGroupManager
             BiomeGroup existingWithSameName = nameToGroup.get(newGroup.getName());
             if (existingWithSameName != null)
             {
-                TerrainControl.log(LogMarker.WARN, "Two biome groups have the same name \"{}\". Removing the second one.",
-                        newGroup.getName());
-                TerrainControl.printStackTrace(LogMarker.WARN, new Exception());
+                TerrainControl.log(LogMarker.WARN,
+                        "Two biome groups have the same name \"" + newGroup.getName() + "\". Removing the second one.");
             } else
             {
                 int newGroupId = getNextGroupId();
@@ -51,7 +50,8 @@ public final class BiomeGroupManager
             }
         } else
         {
-            TerrainControl.log(LogMarker.WARN, "Biome group \"{}\" could not be added. Max biome group count reached.", newGroup.getName());
+            TerrainControl.log(LogMarker.WARN,
+                    "Biome group \"" + newGroup.getName() + "\" could not be added. Max biome group count reached.");
         }
     }
 
@@ -128,7 +128,7 @@ public final class BiomeGroupManager
 
     public SortedMap<Integer, BiomeGroup> getGroupDepthMap(int depth)
     {
-        TreeMap<Integer, BiomeGroup> map = new TreeMap<Integer, BiomeGroup>();
+        TreeMap<Integer, BiomeGroup> map = new TreeMap<>();
         this.cumulativeGroupRarity = 0;
         for (BiomeGroup group : getGroups())
         {

@@ -14,24 +14,24 @@ import java.util.Map;
  * This class is the registry for the custom object types. It also stores
  * the global objects. World objects are stored in the WorldConfig class.
  * <p />
- * 
+ *
  * Terrain Control supports multiple types of custom objects. By default, it
  * supports BO2s, BO3s and a number of special "objects" like trees and
  * UseWorld.
  * <p />
- * 
+ *
  * All those implement CustomObject. Plugin developers can register their
  * own custom object types. If you have a number of CustomObjects that you
  * want to register, just add your object to the global objects in the
  * onStart event using registerGlobalObject. If you have your own file
  * format, just use registerCustomObjectLoader(extension, loader).
  * <p />
- * 
+ *
  * Even trees are custom objects. If you want to add your own tree type, add
  * your tree to the global objects and make sure that it's canSpawnAsObject
  * returns false.
  * <p />
- * 
+ *
  * If your object implements StructuredCustomObject instead of CustomObject,
  * it will be able to have other objects attached to it, forming a
  * structure. As long as each individual object fits in a chunk, Terrain
@@ -47,7 +47,7 @@ public class CustomObjectManager
     public CustomObjectManager()
     {
         // These are the actual lists, not just a copy.
-        this.loaders = new HashMap<String, CustomObjectLoader>();
+        this.loaders = new HashMap<>();
 
         // Register loaders
         registerCustomObjectLoader("bo2", new BO2Loader());
@@ -70,7 +70,7 @@ public class CustomObjectManager
     {
         // Load all global objects (they can overwrite special objects)
         this.globalCustomObjects.load(this.loaders, TerrainControl.getEngine().getGlobalObjectsDirectory());
-        TerrainControl.log(LogMarker.INFO, "{} Global custom objects loaded", globalCustomObjects.getAll().size());
+        TerrainControl.log(LogMarker.INFO, globalCustomObjects.getAll().size() + " global custom objects loaded");
     }
 
     /**

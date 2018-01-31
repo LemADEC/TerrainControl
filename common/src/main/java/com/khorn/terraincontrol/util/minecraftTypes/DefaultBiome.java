@@ -186,7 +186,7 @@ public enum DefaultBiome
 
     /**
      * Returns a DefaultBiome object with the given biome ID
-     * 
+     *
      * @param id the ID of the DeafultBiome that is to be returned
      * @return A DefaultBiome with the given ID
      */
@@ -209,8 +209,7 @@ public enum DefaultBiome
             return new BiomeLoadInstruction(Name, Id, template);
         } catch (Exception e)
         {
-            TerrainControl.log(LogMarker.FATAL, "Failed to create default biome");
-            TerrainControl.printStackTrace(LogMarker.FATAL, e);
+            TerrainControl.log(LogMarker.FATAL, "Failed to create default biome", e);
 
             // Use the standard settings for custom biomes
             return new BiomeLoadInstruction(Name, Id, new StandardBiomeTemplate(maxWorldHeight));
@@ -219,7 +218,7 @@ public enum DefaultBiome
 
     /**
      * Returns true or false depending on if this DefaultBiome has the given name
-     * 
+     *
      * @param name The string to test this.Name against
      * @return Boolean whether or not this DefaultBiome has the given name
      */
@@ -234,7 +233,7 @@ public enum DefaultBiome
         }
         return false;
     }
-    
+
     /**
      * Returns the biome id depending on if this DefaultBiome has the
      * given name
@@ -254,5 +253,5 @@ public enum DefaultBiome
         }
         return null;
     }
-    
+
 }

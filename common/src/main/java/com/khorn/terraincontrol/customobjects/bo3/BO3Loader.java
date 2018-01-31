@@ -23,7 +23,7 @@ public class BO3Loader implements CustomObjectLoader
     /** A list of already loaded meta Tags. The path is the key, a NBT Tag is
      * the value.
      */
-    private static Map<String, NamedBinaryTag> loadedTags = new HashMap<String, NamedBinaryTag>();
+    private static Map<String, NamedBinaryTag> loadedTags = new HashMap<>();
 
     public BO3Loader()
     {
@@ -68,7 +68,7 @@ public class BO3Loader implements CustomObjectLoader
             return getDisplayNameTag(name);
         }
 
-        TerrainControl.log(LogMarker.WARN, "Invalid NBT specification: {}", name);
+        TerrainControl.log(LogMarker.WARN, "Invalid NBT specification: " + name);
         return null;
     }
 
@@ -99,7 +99,7 @@ public class BO3Loader implements CustomObjectLoader
             return TerrainControl.getEngine().toNamedBinaryTag(string);
         } catch (InvalidConfigException e)
         {
-            TerrainControl.log(LogMarker.WARN, "Could not parse as NBT: {}", string);
+            TerrainControl.log(LogMarker.WARN, "Could not parse as NBT: " + string);
             return null;
         }
     }
@@ -127,7 +127,7 @@ public class BO3Loader implements CustomObjectLoader
         } catch (FileNotFoundException e)
         {
             // File not found
-            TerrainControl.log(LogMarker.WARN, "NBT file {} not found", (Object) path);
+            TerrainControl.log(LogMarker.WARN, "NBT file " + path + " not found");
             return null;
         } catch (IOException e)
         {
@@ -138,8 +138,7 @@ public class BO3Loader implements CustomObjectLoader
                 return findCorrectTag(NamedBinaryTag.readFrom(streamForUncompressed, false));
             } catch (IOException corruptFile)
             {
-                TerrainControl.log(LogMarker.FATAL, "Failed to read NBT meta file: ", e.getMessage());
-                TerrainControl.printStackTrace(LogMarker.FATAL, corruptFile);
+                TerrainControl.log(LogMarker.FATAL, "Failed to read NBT meta file ", corruptFile);
                 return null;
             }
         }

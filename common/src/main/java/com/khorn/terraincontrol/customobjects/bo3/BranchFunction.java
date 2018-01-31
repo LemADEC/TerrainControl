@@ -46,7 +46,7 @@ public class BranchFunction extends BO3Function implements Branch
     public BranchFunction(BO3Config config, List<String> args) throws InvalidConfigException
     {
         super(config);
-        branches = new TreeSet<BranchNode>();
+        branches = new TreeSet<>();
         readArgs(args, false);
     }
 
@@ -62,7 +62,7 @@ public class BranchFunction extends BO3Function implements Branch
         rotatedBranch.x = z;
         rotatedBranch.y = y;
         rotatedBranch.z = -x;
-        rotatedBranch.branches = new TreeSet<BranchNode>();
+        rotatedBranch.branches = new TreeSet<>();
         for (BranchNode holder : this.branches)
         {
             rotatedBranch.branches.add(new BranchNode(holder.getRotation().next(), holder.getChance(), holder.getCustomObject()));
@@ -74,10 +74,10 @@ public class BranchFunction extends BO3Function implements Branch
     public String toString()
     {
         StringBuilder output = new StringBuilder(getConfigName())
-            .append('(')
-            .append(x).append(',')
-            .append(y).append(',')
-            .append(z);
+                .append('(')
+                .append(x).append(',')
+                .append(y).append(',')
+                .append(z);
         for (Iterator<BranchNode> it = branches.iterator(); it.hasNext();)
         {
             output.append(it.next().toBranchString());
@@ -97,7 +97,6 @@ public class BranchFunction extends BO3Function implements Branch
         {
             BranchNode branch = it.next();
             double randomChance = random.nextDouble() * (totalChance != -1 ? totalChance : 100);
-            TerrainControl.log(LogMarker.TRACE, "  Needed: {} Obtained: {}", branch.getChance(), randomChance);
             if (randomChance < branch.getChance())
             {
                 TerrainControl.log(LogMarker.TRACE, "  Successful Spawn");
@@ -134,7 +133,7 @@ public class BranchFunction extends BO3Function implements Branch
                 throw new InvalidConfigException("The " + this.getConfigName() + " `" + args.get(i) + "` was not found. Make sure to place it in the same directory.");
             } else
             {
-                TerrainControl.log(LogMarker.TRACE, "{} Initialized", (Object) object.getName());
+                TerrainControl.log(LogMarker.TRACE, object.getName() + " initialized");
             }
             double branchChance = readDouble(args.get(i + 2), 0, Double.MAX_VALUE);
             if (accumulateChances)
@@ -147,10 +146,9 @@ public class BranchFunction extends BO3Function implements Branch
                 branches.add(new BranchNode(Rotation.getRotation(args.get(i + 1)), branchChance, object));
             }
         }
-        TerrainControl.log(LogMarker.TRACE, "{}:{}", args.size(), i);
         if (i < args.size())
         {
-            TerrainControl.log(LogMarker.TRACE, "{} TotalChance set.", (Object) this.getConfigName());
+            TerrainControl.log(LogMarker.TRACE, this.getConfigName() + " TotalChance set");
             totalChance = readDouble(args.get(i), 0, Double.MAX_VALUE);
         }
         return cumulativeChance;

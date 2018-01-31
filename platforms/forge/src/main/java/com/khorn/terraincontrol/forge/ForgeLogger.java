@@ -1,8 +1,10 @@
 package com.khorn.terraincontrol.forge;
 
+import com.khorn.terraincontrol.TerrainControl;
 import com.khorn.terraincontrol.configuration.standard.PluginStandardValues;
 import com.khorn.terraincontrol.logging.LogMarker;
 import com.khorn.terraincontrol.logging.Logger;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
 /**
@@ -16,37 +18,43 @@ final class ForgeLogger extends Logger
     private org.apache.logging.log4j.Logger logger = LogManager.getLogger(PluginStandardValues.PLUGIN_NAME);
 
     @Override
-    public void log(LogMarker level, String message, Object... params)
+    public void log(LogMarker marker, String message, Throwable error)
     {
-        if (this.minimumLevel.compareTo(level) < 0)
+        if (this.minimumLevel.compareTo(marker) < 0)
         {
             // Only log messages that we want to see...
             return;
         }
-        switch (level)
+
+        Level level = toLevel(marker);
+        if (error == null)
         {
-            case FATAL:
-                this.logger.fatal(message, params);
-                break;
-            case ERROR:
-                this.logger.error(message, params);
-                break;
-            case WARN:
-                this.logger.warn(message, params);
-                break;
-            case INFO:
-                this.logger.info(message, params);
-                break;
+            this.logger.log(level, message);
+        } else
+        {
+            this.logger.log(level, message, error);
+        }
+    }
+
+    private Level toLevel(LogMarker marker)
+    {
+        switch (marker)
+        {
             case DEBUG:
-                this.logger.debug(message, params);
-                break;
+                return Level.DEBUG;
+            case ERROR:
+                return Level.ERROR;
+            case FATAL:
+                return Level.FATAL;
+            case INFO:
+                return Level.INFO;
             case TRACE:
-                this.logger.trace(message, params);
-                break;
+                return Level.TRACE;
+            case WARN:
+                return Level.WARN;
             default:
-                // Unknown log level, should never happen
-                this.logger.info(message, params); // Still log the message
-                throw new RuntimeException("Unknown log marker: " + level);
+                TerrainControl.log(LogMarker.ERROR, "Unknown log level: " + marker);
+                return Level.INFO;
         }
     }
 }

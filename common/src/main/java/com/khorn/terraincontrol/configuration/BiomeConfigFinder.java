@@ -206,8 +206,7 @@ public final class BiomeConfigFinder
             return newFile;
         } else
         {
-            TerrainControl.log(LogMarker.INFO, "Failed to rename biome file {} to {}",
-                    new Object[] {toRename.getAbsolutePath(), newFile.getAbsolutePath()});
+            TerrainControl.log(LogMarker.INFO, "Failed to rename biome file "+toRename.getAbsolutePath()+" to "+newFile.getAbsolutePath());
             return toRename;
         }
     }

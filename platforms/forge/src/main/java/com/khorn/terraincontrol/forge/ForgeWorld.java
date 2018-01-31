@@ -63,7 +63,7 @@ public class ForgeWorld implements LocalWorld
     private static final int MAX_BIOMES_COUNT = 1024;
     private static final int STANDARD_WORLD_HEIGHT = 128;
 
-    private HashMap<String, LocalBiome> biomeNames = new HashMap<String, LocalBiome>();
+    private HashMap<String, LocalBiome> biomeNames = new HashMap<>();
 
     public TXMansionGen mansionGen;
     public TXStrongholdGen strongholdGen;
@@ -116,10 +116,10 @@ public class ForgeWorld implements LocalWorld
                 if (requestedGenerationId < 256 && allocatedGenerationId >= 256)
                 {
                     throw new RuntimeException("Could not allocate the requested id " + requestedGenerationId + " for biome " + biomeConfig.getName() + ". All available id's under 256 have been allocated.\n"
-                        + "To proceed, adjust your WorldConfig or use the ReplaceToBiomeName feature to make the biome virtual.");
+                            + "To proceed, adjust your WorldConfig or use the ReplaceToBiomeName feature to make the biome virtual.");
                 }
-                TerrainControl.log(LogMarker.INFO, "Asked to register {} with id {}, but succeeded with id {}",
-                        biomeConfig.getName(), requestedGenerationId, allocatedGenerationId);
+                TerrainControl.log(LogMarker.INFO,
+                        "Asked to register " + biomeConfig.getName() + " with id " + requestedGenerationId + ", but succeeded with id " + allocatedGenerationId);
             }
         }
 
@@ -173,7 +173,7 @@ public class ForgeWorld implements LocalWorld
     {
         // Loop through all default biomes and create the default
         // settings for them
-        List<BiomeLoadInstruction> standardBiomes = new ArrayList<BiomeLoadInstruction>();
+        List<BiomeLoadInstruction> standardBiomes = new ArrayList<>();
         for (DefaultBiome defaultBiome : DefaultBiome.values())
         {
             int id = defaultBiome.Id;
@@ -371,7 +371,7 @@ public class ForgeWorld implements LocalWorld
             return null;
 
         int chunkX = x >> 4;
-        int chunkZ = z >> 4;
+                int chunkZ = z >> 4;
 
         if (this.chunkCache == null)
         {
@@ -588,7 +588,7 @@ public class ForgeWorld implements LocalWorld
                 chunkCache[indexX | (indexZ << 1)] = this.world.getChunkFromChunkCoords(
                         topLeft.getChunkX() + indexX,
                         topLeft.getChunkZ() + indexZ
-                );
+                        );
             }
         }
         return chunkCache;
@@ -794,9 +794,8 @@ public class ForgeWorld implements LocalWorld
             tileEntity.readFromNBT(nmsTag);
         } else
         {
-            TerrainControl.log(LogMarker.DEBUG,
-                    "Skipping tile entity with id {}, cannot be placed at {},{},{} on id {}", nmsTag.getString("id"), x,
-                    y, z, getMaterial(x, y, z));
+            TerrainControl.log(LogMarker.INFO, "Skipping tile entity with id " + nmsTag.getString(
+                    "id") + ", cannot be placed at " + x + "," + y + "," + z + " on id " + getMaterial(x, y, z));
         }
     }
 
@@ -871,7 +870,7 @@ public class ForgeWorld implements LocalWorld
         Class<? extends Entity> entityClass = EntityList.getClass(entityResource);
         if (entityClass == null)
         {
-            TerrainControl.log(LogMarker.WARN, "Unknown entity name: {}", entityResource);
+            TerrainControl.log(LogMarker.WARN, "Unknown entity name: " + entityResource);
             return null;
         }
 

@@ -46,8 +46,7 @@ public final class FileSettingsWriter
 
     private static void logIOError(IOException e, File file)
     {
-        TerrainControl.log(LogMarker.ERROR, "Failed to write to file {}", file);
-        TerrainControl.printStackTrace(LogMarker.ERROR, e);
+        TerrainControl.log(LogMarker.ERROR, "Failed to write to file " + file, e);
     }
 
     private final File file;

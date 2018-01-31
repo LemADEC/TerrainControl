@@ -81,14 +81,13 @@ public class ClientNetworkEventListener
                     sendMessage(TextFormatting.YELLOW,
                             "The server is running an outdated version of " + PluginStandardValues.PLUGIN_NAME + ". Cannot load custom biome colors and weather.");
                 }
-                TerrainControl.log(LogMarker.WARN, "Server has different protocol version. Client: {} Server: {}",
-                        PluginStandardValues.ProtocolVersion, serverProtocolVersion);
+                TerrainControl.log(LogMarker.WARN,
+                        "Server has different protocol version. Client: " + PluginStandardValues.ProtocolVersion + " Server: " + serverProtocolVersion);
             }
         } catch (Exception e)
         {
-            TerrainControl.log(LogMarker.FATAL, "Failed to receive packet");
-            TerrainControl.printStackTrace(LogMarker.FATAL, e);
-            TerrainControl.log(LogMarker.FATAL, "Packet contents: {}", Arrays.toString(stream.array()));
+            TerrainControl.log(LogMarker.FATAL, "Failed to receive packet", e);
+            TerrainControl.log(LogMarker.FATAL, "Packet contents: " + Arrays.toString(stream.array()));
             sendMessage(TextFormatting.RED, "Error receiving packet.");
         }
     }

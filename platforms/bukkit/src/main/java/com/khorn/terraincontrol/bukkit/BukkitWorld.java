@@ -45,7 +45,7 @@ public class BukkitWorld implements LocalWorld
     private static final int MAX_BIOMES_COUNT = 1024;
     private static final int STANDARD_WORLD_HEIGHT = 128;
 
-    private final Map<String, LocalBiome> biomeNames = new HashMap<String, LocalBiome>();
+    private final Map<String, LocalBiome> biomeNames = new HashMap<>();
 
     public TXStrongholdGen strongholdGen;
     public TXVillageGen villageGen;
@@ -121,7 +121,7 @@ public class BukkitWorld implements LocalWorld
         }
         return (BukkitBiome) biome;
     }
-    
+
     @Override
     public LocalBiome getBiomeByIdOrNull(int id)
     {
@@ -144,7 +144,7 @@ public class BukkitWorld implements LocalWorld
     {
         // Loop through all default biomes and create the default
         // settings for them
-        List<BiomeLoadInstruction> standardBiomes = new ArrayList<BiomeLoadInstruction>();
+        List<BiomeLoadInstruction> standardBiomes = new ArrayList<>();
         for (DefaultBiome defaultBiome : DefaultBiome.values())
         {
             int id = defaultBiome.Id;
@@ -340,13 +340,13 @@ public class BukkitWorld implements LocalWorld
             return null;
 
         int chunkX = x >> 4;
-        int chunkZ = z >> 4;
+                int chunkZ = z >> 4;
 
         if (this.chunkCache == null)
         {
             // Blocks requested outside population step
             // (Tree growing, /tc spawn, etc.)
-           return world.getChunkAt(chunkX, chunkZ); 
+            return world.getChunkAt(chunkX, chunkZ);
         }
 
         // Restrict to chunks we are currently populating
@@ -482,7 +482,7 @@ public class BukkitWorld implements LocalWorld
         } catch (Throwable t)
         {
             String populatingChunkInfo = this.chunkCache == null? "(no chunk)" :
-                    this.chunkCache[0].locX + "," + this.chunkCache[0].locZ;
+                this.chunkCache[0].locX + "," + this.chunkCache[0].locZ;
             // Add location info to error
             RuntimeException runtimeException = new RuntimeException("Error setting "
                     + material + " block at " + x + "," + y + "," + z
@@ -588,7 +588,7 @@ public class BukkitWorld implements LocalWorld
                 chunkCache[indexX | (indexZ << 1)] = world.getChunkAt(
                         topLeft.getChunkX() + indexX,
                         topLeft.getChunkZ() + indexZ
-                );
+                        );
             }
         }
         return chunkCache;
@@ -663,7 +663,7 @@ public class BukkitWorld implements LocalWorld
     /**
      * Sets the new settings and deprecates any references to the old
      * settings, if any.
-     * 
+     *
      * @param newSettings The new settings.
      */
     public void setSettings(ServerConfigProvider newSettings)
@@ -863,8 +863,8 @@ public class BukkitWorld implements LocalWorld
             tileEntity.load(nmsTag);
         } else
         {
-            TerrainControl.log(LogMarker.DEBUG, "Skipping tile entity with id {}, cannot be placed at {},{},{} on id {}",
-                    nmsTag.getString("id"), x, y, z, getMaterial(x, y, z));
+            TerrainControl.log(LogMarker.INFO, "Skipping tile entity with id " + nmsTag.getString(
+                    "id") + ", cannot be placed at " + x + "," + y + "," + z + " on id " + getMaterial(x, y, z));
         }
     }
 
@@ -914,7 +914,7 @@ public class BukkitWorld implements LocalWorld
         Class<? extends Entity> entityClass = EntityTypes.b.get(entityResource);
         if (entityClass == null)
         {
-            TerrainControl.log(LogMarker.WARN, "Unknown entity name: {}", entityResource);
+            TerrainControl.log(LogMarker.WARN, "Unknown entity name: " + entityResource);
             return null;
         }
 

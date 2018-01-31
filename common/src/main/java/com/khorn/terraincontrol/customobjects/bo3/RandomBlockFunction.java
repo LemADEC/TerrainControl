@@ -55,10 +55,11 @@ public class RandomBlockFunction extends BO3PlaceableFunction
             } catch (InvalidConfigException e)
             {
                 if (args.get(i).isEmpty()) {
-                    TerrainControl.log(LogMarker.ERROR, "Found empty RandomBlock argument in config {} with args {}.", config.getName(), args);
+                    TerrainControl.log(LogMarker.ERROR,
+                            "Found empty RandomBlock argument in config " + config.getName() + " with args " + args);
                 } else {
                     // Maybe it's a NBT file?
-    
+
                     // Get the file
                     NamedBinaryTag metaData = BO3Loader.loadMetadata(args.get(i), this.getHolder().directory);
                     if (metaData != null)

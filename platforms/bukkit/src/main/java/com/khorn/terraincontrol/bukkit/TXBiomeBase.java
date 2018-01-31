@@ -1,7 +1,6 @@
 package com.khorn.terraincontrol.bukkit;
 
 import com.khorn.terraincontrol.BiomeIds;
-import com.khorn.terraincontrol.TerrainControl;
 import com.khorn.terraincontrol.bukkit.util.EnumHelper;
 import com.khorn.terraincontrol.bukkit.util.MobSpawnGroupHelper;
 import com.khorn.terraincontrol.bukkit.util.WorldHelper;
@@ -9,7 +8,6 @@ import com.khorn.terraincontrol.configuration.BiomeConfig;
 import com.khorn.terraincontrol.configuration.WeightedMobSpawnGroup;
 import com.khorn.terraincontrol.configuration.standard.PluginStandardValues;
 import com.khorn.terraincontrol.configuration.standard.WorldStandardValues;
-import com.khorn.terraincontrol.logging.LogMarker;
 import com.khorn.terraincontrol.util.helpers.StringHelper;
 import net.minecraft.server.v1_12_R1.BiomeBase;
 import net.minecraft.server.v1_12_R1.MinecraftKey;
@@ -83,9 +81,9 @@ public class TXBiomeBase extends BiomeBase
         // We need to init array size because Mojang uses a strange custom
         // ArrayList. RegistryID arrays are not correctly (but randomly!) copied
         // when resized.
-        if(BiomeBase.getBiome(MAX_TC_BIOME_ID) == null) {
-            BiomeBase.REGISTRY_ID.a(MAX_TC_BIOME_ID,
-                    new MinecraftKey(PluginStandardValues.PLUGIN_NAME, "null"),
+        if (BiomeBase.getBiome(MAX_TC_BIOME_ID) == null)
+        {
+            BiomeBase.REGISTRY_ID.a(MAX_TC_BIOME_ID, new MinecraftKey(PluginStandardValues.PLUGIN_NAME, "null"),
                     new TXBiomeBase(biomeConfig, new BiomeIds(MAX_TC_BIOME_ID, MAX_TC_BIOME_ID)));
         }
 
@@ -103,31 +101,24 @@ public class TXBiomeBase extends BiomeBase
                 // custom biome that is loaded after this virtual biome, so it
                 // will soon be registered
                 BiomeBase.REGISTRY_ID.a(savedBiomeId, biomeKey, customBiome);
-                TerrainControl.log(LogMarker.DEBUG, ",{},{},{}", biomeConfig.getName(), savedBiomeId, biomeIds.getGenerationId());
             } else
             {
                 MinecraftKey existingBiomeKey = BiomeBase.REGISTRY_ID.b(existingBiome);
                 BiomeBase.REGISTRY_ID.a(savedBiomeId, biomeKey, customBiome);
                 BiomeBase.REGISTRY_ID.a(savedBiomeId, existingBiomeKey, existingBiome);
-
-                // String existingBiomeName = existingBiome.getClass().getSimpleName();
-                // if(existingBiome instanceof CustomBiome) {
-                //     existingBiomeName = String.valueOf(((CustomBiome) existingBiome).generationId);
-                // }
-                TerrainControl.log(LogMarker.DEBUG, ",{},{},{}", biomeConfig.getName(), savedBiomeId, biomeIds.getGenerationId() /*, existingBiomeName*/ );
             }
         } else
         {
             // Normal insertion
             BiomeBase.REGISTRY_ID.a(savedBiomeId, biomeKey, customBiome);
-
-            TerrainControl.log(LogMarker.DEBUG, ",{},{},{}", biomeConfig.getName(), savedBiomeId, biomeIds.getGenerationId());
         }
 
         // Add biome to Bukkit enum if it's not there yet
-        try {
+        try
+        {
             Biome.valueOf(biomeNameWithoutSpaces.toUpperCase());
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e)
+        {
             EnumHelper.addEnum(Biome.class, biomeNameWithoutSpaces.toUpperCase(), new Class[0], new Object[0]);
         }
 
@@ -146,12 +137,14 @@ public class TXBiomeBase extends BiomeBase
     /**
      * Check if biome ID registry is well filled.
      */
-    private static void checkRegistry() {
-        for(int i = 168; i >= 0; --i) {
+    private static void checkRegistry()
+    {
+        for (int i = 168; i >= 0; --i)
+        {
             BiomeBase biome = getBiome(i);
-            if(biome != null && biome instanceof TXBiomeBase && ((TXBiomeBase) biome).generationId != i) {
-                throw new AssertionError("Biome ID #" + i + " returns custom biome #" +
-                        ((TXBiomeBase) biome).generationId + " instead of its own.");
+            if (biome != null && biome instanceof TXBiomeBase && ((TXBiomeBase) biome).generationId != i)
+            {
+                throw new AssertionError("Biome ID #" + i + " returns custom biome #" + ((TXBiomeBase) biome).generationId + " instead of its own.");
             }
         }
     }

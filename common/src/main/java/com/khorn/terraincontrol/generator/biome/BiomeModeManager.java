@@ -15,7 +15,7 @@ public class BiomeModeManager
 {
 
     // Stores all biome managers
-    private Map<String, Class<? extends BiomeGenerator>> registered = new HashMap<String, Class<? extends BiomeGenerator>>();
+    private Map<String, Class<? extends BiomeGenerator>> registered = new HashMap<>();
 
     public final Class<NormalBiomeGenerator> NORMAL = register("Normal", NormalBiomeGenerator.class);
     public final Class<FromImageBiomeGenerator> FROM_IMAGE = register("FromImage", FromImageBiomeGenerator.class);
@@ -53,7 +53,7 @@ public class BiomeModeManager
             }
         }
         // Fall back on normal mode
-        TerrainControl.log(LogMarker.WARN, "{} is not a valid biome mode, falling back on Normal.", (Object) name);
+        TerrainControl.log(LogMarker.WARN, name + " is not a valid biome mode, falling back on Normal.");
         return NORMAL;
     }
 
@@ -73,8 +73,8 @@ public class BiomeModeManager
             return clazz.getConstructor(LocalWorld.class).newInstance(world);
         } catch (Exception e)
         {
-            TerrainControl.log(LogMarker.FATAL, "Cannot properly reflect biome manager, falling back on BiomeMode:Normal");
-            TerrainControl.printStackTrace(LogMarker.FATAL, e);
+            TerrainControl.log(LogMarker.FATAL,
+                    "Cannot properly reflect biome manager, falling back on BiomeMode:Normal", e);
             return new NormalBiomeGenerator(world);
         }
     }

@@ -1,8 +1,5 @@
 package com.khorn.terraincontrol.forge.events;
 
-import java.io.DataOutput;
-import java.io.IOException;
-
 import com.google.common.base.Preconditions;
 import com.khorn.terraincontrol.LocalWorld;
 import com.khorn.terraincontrol.TerrainControl;
@@ -11,7 +8,6 @@ import com.khorn.terraincontrol.configuration.ConfigToNetworkSender;
 import com.khorn.terraincontrol.configuration.standard.PluginStandardValues;
 import com.khorn.terraincontrol.forge.WorldLoader;
 import com.khorn.terraincontrol.logging.LogMarker;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
@@ -20,6 +16,9 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SPacketCustomPayload;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+
+import java.io.DataOutput;
+import java.io.IOException;
 
 public class PlayerTracker
 {
@@ -65,7 +64,8 @@ public class PlayerTracker
             ConfigToNetworkSender.send(configs, stream);
         } catch (IOException e)
         {
-            TerrainControl.printStackTrace(LogMarker.FATAL, e);
+            TerrainControl.log(LogMarker.FATAL, "Failed to send network packet to the player named " + player.getName(),
+                    e);
         }
 
         // Make the packet

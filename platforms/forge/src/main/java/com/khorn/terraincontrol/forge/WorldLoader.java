@@ -11,7 +11,6 @@ import com.khorn.terraincontrol.configuration.ServerConfigProvider;
 import com.khorn.terraincontrol.forge.generator.TXBiome;
 import com.khorn.terraincontrol.forge.util.WorldHelper;
 import com.khorn.terraincontrol.logging.LogMarker;
-
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.DedicatedServer;
@@ -42,7 +41,7 @@ public final class WorldLoader
 
     private final File configsDir;
     private final Map<String, ServerConfigProvider> configMap = Maps.newHashMap();
-    public final HashMap<String, ForgeWorld> worlds = new HashMap<String, ForgeWorld>();
+    public final HashMap<String, ForgeWorld> worlds = new HashMap<>();
 
     WorldLoader(File configsDir)
     {
@@ -108,7 +107,7 @@ public final class WorldLoader
 
     public void unloadWorld(ForgeWorld world)
     {
-        TerrainControl.log(LogMarker.INFO, "Unloading world \"{}\"...", world.getName());
+        TerrainControl.log(LogMarker.INFO, "Unloading world \"" + world.getName() + "\"...");
         this.worlds.remove(world.getName());
     }
 
@@ -152,7 +151,7 @@ public final class WorldLoader
             ServerConfigProvider config = this.configMap.get(worldName);
             if (config == null)
             {
-                TerrainControl.log(LogMarker.INFO, "Loading configs for world \"{}\"..", world.getName());
+                TerrainControl.log(LogMarker.INFO, "Loading configs for world \"" + world.getName() + "\"..");
                 config = new ServerConfigProvider(worldConfigsFolder, world);
                 // Remove fake biome to avoid Forge detecting it on restart and causing level.dat to be restored
                 Iterator<Map.Entry<ResourceLocation, Biome>> iterator = Biome.REGISTRY.registryObjects.entrySet().iterator();
@@ -166,7 +165,7 @@ public final class WorldLoader
                         iterator.remove();
                     }
                 }
-                IntIdentityHashBiMap<Biome> underlyingIntegerMap = new IntIdentityHashBiMap<Biome>(256);
+                IntIdentityHashBiMap<Biome> underlyingIntegerMap = new IntIdentityHashBiMap<>(256);
                 Iterator<Biome> biomeIterator = Biome.REGISTRY.underlyingIntegerMap.iterator();
                 while (biomeIterator.hasNext())
                 {

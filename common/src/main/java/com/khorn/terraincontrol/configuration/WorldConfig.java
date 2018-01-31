@@ -29,7 +29,7 @@ public class WorldConfig extends ConfigFile
         }
     };
 
-    public Map<String, Integer> customBiomeGenerationIds = new HashMap<String, Integer>();
+    public Map<String, Integer> customBiomeGenerationIds = new HashMap<>();
 
     // Holds all world CustomObjects.
     public final CustomObjectCollection worldObjects;
@@ -37,8 +37,8 @@ public class WorldConfig extends ConfigFile
     // Biome Groups and special biome lists
     public BiomeGroupManager biomeGroupManager;
 
-    public List<String> IsleBiomes = new ArrayList<String>();
-    public List<String> BorderBiomes = new ArrayList<String>();
+    public List<String> IsleBiomes = new ArrayList<>();
+    public List<String> BorderBiomes = new ArrayList<>();
 
     // For old biome generator
     public double oldBiomeSize;
@@ -223,8 +223,8 @@ public class WorldConfig extends ConfigFile
             String biomeName = entry.getKey();
             if (DefaultBiome.Contain(biomeName))
             {
-                TerrainControl.log(LogMarker.WARN, "CustomBiomes only accepts custom biomes,"
-                        + " {} is a vanilla biome. Removing it from the list.", biomeName);
+                TerrainControl.log(LogMarker.WARN,
+                        "CustomBiomes only accepts custom biomes, " + biomeName + " is a vanilla biome. Removing it from the list.");
                 it.remove();
                 continue;
             }
@@ -804,8 +804,8 @@ public class WorldConfig extends ConfigFile
                     "chunk data, ignoring the biome generator. This is useful if you have a premade",
                     "map made with for example WorldPainter, but still want to populate it using "
                             + PluginStandardValues.PLUGIN_NAME + ".",
-                    "Using this together with " + BiomeStandardValues.REPLACE_TO_BIOME_NAME + " is discouraged: it uses the biome",
-                    "specified in " + BiomeStandardValues.REPLACE_TO_BIOME_NAME
+                            "Using this together with " + BiomeStandardValues.REPLACE_TO_BIOME_NAME + " is discouraged: it uses the biome",
+                            "specified in " + BiomeStandardValues.REPLACE_TO_BIOME_NAME
                             + " to populate the chunk, instead of the biome itself.");
         }
 
@@ -1026,9 +1026,9 @@ public class WorldConfig extends ConfigFile
 
     private void WriteCustomBiomes(SettingsMap writer)
     {
-        List<String> output = new ArrayList<String>();
+        List<String> output = new ArrayList<>();
         // Custom biome id
-        List<Entry<String, Integer>> cbi = new ArrayList<Entry<String, Integer>>(this.customBiomeGenerationIds.entrySet());
+        List<Entry<String, Integer>> cbi = new ArrayList<>(this.customBiomeGenerationIds.entrySet());
         Collections.sort(cbi, CBV);
         // Print all custom biomes
         for (Iterator<Entry<String, Integer>> it = cbi.iterator(); it.hasNext();)

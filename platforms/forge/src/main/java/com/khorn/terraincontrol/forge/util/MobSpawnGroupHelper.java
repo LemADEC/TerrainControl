@@ -76,7 +76,7 @@ public final class MobSpawnGroupHelper
      */
     static List<WeightedMobSpawnGroup> fromMinecraftList(Collection<SpawnListEntry> biomeMetas)
     {
-        List<WeightedMobSpawnGroup> result = new ArrayList<WeightedMobSpawnGroup>();
+        List<WeightedMobSpawnGroup> result = new ArrayList<>();
         for (SpawnListEntry meta : biomeMetas)
         {
             result.add(fromMinecraftGroup(meta));
@@ -92,7 +92,7 @@ public final class MobSpawnGroupHelper
      */
     public static List<SpawnListEntry> toMinecraftlist(Collection<WeightedMobSpawnGroup> weightedMobSpawnGroups)
     {
-        List<SpawnListEntry> biomeList = new ArrayList<SpawnListEntry>();
+        List<SpawnListEntry> biomeList = new ArrayList<>();
         for (WeightedMobSpawnGroup mobGroup : weightedMobSpawnGroups)
         {
             Class<? extends EntityLiving> entityClass = toMinecraftClass(mobGroup.getInternalName());
@@ -103,13 +103,12 @@ public final class MobSpawnGroupHelper
             {
                 // The .toLowerCase() is just a safeguard so that we get
                 // notified if this.af is no longer the biome name
-                TerrainControl.log(LogMarker.WARN, "Mob type {} not found",
-                        mobGroup.getInternalName());
+                TerrainControl.log(LogMarker.WARN, "Mob type " + mobGroup.getInternalName() + " not found");
             }
         }
         return biomeList;
     }
-    
+
     /**
      * Gets the entity class corresponding to the given entity name. This
      * method is the inverse of {@link #fromMinecraftClass(Class)}.

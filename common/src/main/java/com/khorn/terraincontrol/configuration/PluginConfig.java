@@ -65,8 +65,8 @@ public final class PluginConfig extends ConfigFile
         if (!BiomeStandardValues.BiomeConfigExtensions.contains(this.biomeConfigExtension))
         {
             String newExtension = BiomeStandardValues.BIOME_CONFIG_EXTENSION.getDefaultValue();
-            TerrainControl.log(LogMarker.WARN, "BiomeConfig file extension {} is invalid, changing to {}",
-                    this.biomeConfigExtension, newExtension);
+            TerrainControl.log(LogMarker.WARN,
+                    "BiomeConfig file extension " + this.biomeConfigExtension + " is invalid, changing to " + newExtension);
             this.biomeConfigExtension = newExtension;
         }
 

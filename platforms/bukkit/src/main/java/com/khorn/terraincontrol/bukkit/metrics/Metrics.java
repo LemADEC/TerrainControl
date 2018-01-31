@@ -1,16 +1,16 @@
 /*
  * Copyright 2011-2013 Tyler Blair. All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR IMPLIED
  * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -21,7 +21,7 @@
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  * The views and conclusions contained in the software and documentation are
  * those of the authors and contributors and should not be interpreted as
  * representing official policies, either expressed or implied, of anybody else.
@@ -244,8 +244,7 @@ public class Metrics
                     {
                         if (debug)
                         {
-                            //t>>	FIX
-                            TerrainControl.log(LogMarker.INFO, "[Metrics] ", e.getMessage());
+                            TerrainControl.log(LogMarker.INFO, "[Metrics] ", e);
                         }
                     }
                 }
@@ -272,16 +271,14 @@ public class Metrics
             {
                 if (debug)
                 {
-                    //t>>	FIX
-                    TerrainControl.log(LogMarker.INFO, "[Metrics] ", ex.getMessage());
+                    TerrainControl.log(LogMarker.INFO, "[Metrics] ", ex);
                 }
                 return true;
             } catch (InvalidConfigurationException ex)
             {
                 if (debug)
                 {
-                    //t>>	FIX
-                    TerrainControl.log(LogMarker.INFO, "[Metrics] ", ex.getMessage());
+                    TerrainControl.log(LogMarker.INFO, "[Metrics] ", ex);
                 }
                 return true;
             }
@@ -374,8 +371,8 @@ public class Metrics
         PluginDescriptionFile description = plugin.getDescription();
         String pluginName = description.getName();
         boolean onlineMode = Bukkit.getServer().getOnlineMode(); // TRUE if
-                                                                 // online mode
-                                                                 // is enabled
+        // online mode
+        // is enabled
         String pluginVersion = description.getVersion();
         String serverVersion = Bukkit.getVersion();
         int playersOnline = Bukkit.getServer().getOnlinePlayers().size();
@@ -566,16 +563,16 @@ public class Metrics
             gzos.write(input.getBytes("UTF-8"));
         } catch (IOException e)
         {
-            TerrainControl.printStackTrace(LogMarker.FATAL, e);
+            TerrainControl.log(LogMarker.FATAL, "[Metrics] ", e);
         } finally
         {
             if (gzos != null)
                 try
-                {
+            {
                     gzos.close();
-                } catch (IOException ignore)
-                {
-                }
+            } catch (IOException ignore)
+            {
+            }
         }
 
         return baos.toByteArray();
@@ -717,7 +714,7 @@ public class Metrics
         /**
          * The set of plotters that are contained within this graph
          */
-        private final Set<Plotter> plotters = new LinkedHashSet<Plotter>();
+        private final Set<Plotter> plotters = new LinkedHashSet<>();
 
         private Graph(final String name)
         {
@@ -863,5 +860,5 @@ public class Metrics
             return plotter.name.equals(name) && plotter.getValue() == getValue();
         }
     }
-    
+
 }

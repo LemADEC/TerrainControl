@@ -78,35 +78,18 @@ public class FileSettingsReader
      */
     public void readIntoMap(SettingsMap settings, File file)
     {
-        BufferedReader settingsReader = null;
-
         if (!file.exists())
         {
             return;
         }
 
-        try
+        try (BufferedReader settingsReader = new BufferedReader(new FileReader(file)))
         {
-            settingsReader = new BufferedReader(new FileReader(file));
             readIntoMap(settings, settingsReader);
         } catch (IOException e)
         {
-            TerrainControl.printStackTrace(LogMarker.FATAL, e);
-        } finally
-        {
-            if (settingsReader != null)
-            {
-                try
-                {
-                    settingsReader.close();
-                } catch (IOException localIOException2)
-                {
-                    TerrainControl.printStackTrace(LogMarker.FATAL, localIOException2);
-                }
-            }
+            TerrainControl.log(LogMarker.FATAL, "Failed to read " + file, e);
         }
-
     }
-
 
 }

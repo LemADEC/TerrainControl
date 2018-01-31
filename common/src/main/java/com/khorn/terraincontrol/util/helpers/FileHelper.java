@@ -16,7 +16,7 @@ public final class FileHelper
      * Makes sure all the folders in the collection exist. Folders that don't
      * exist yet are created. Logs a message for each folder that could not be
      * created.
-     * 
+     *
      * @param folders The folders that must exist.
      * @return True if all folders already existed or were created, false
      * otherwise. In other words: if this method returns true, you can be sure
@@ -49,7 +49,7 @@ public final class FileHelper
     {
         if (!folder.exists() && !folder.mkdirs())
         {
-            TerrainControl.log(LogMarker.WARN, "Error creating directory \"{}\".", folder.getAbsolutePath());
+            TerrainControl.log(LogMarker.WARN, "Error creating directory \"" + folder.getAbsolutePath() + "\".");
             return false;
         }
         return true;

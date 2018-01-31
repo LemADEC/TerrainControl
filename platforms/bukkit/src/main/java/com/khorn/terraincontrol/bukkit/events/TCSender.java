@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class TCSender
 {
-    
+
     private TXPlugin plugin;
 
     public TCSender(TXPlugin plugin)
@@ -42,7 +42,8 @@ public class TCSender
                 stream.flush();
             } catch (IOException e)
             {
-                TerrainControl.printStackTrace(LogMarker.FATAL, e);
+                TerrainControl.log(LogMarker.FATAL,
+                        "Error writing network packet to the player named " + player.getName(), e);
             }
 
             byte[] data = outputStream.toByteArray();

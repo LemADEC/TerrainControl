@@ -100,8 +100,7 @@ public class TXVillageStart extends StructureStart
                     break;
                 } catch (Exception e)
                 {
-                    TerrainControl.log(LogMarker.FATAL, "Cannot make village a sandstone village!");
-                    TerrainControl.printStackTrace(LogMarker.FATAL, e);
+                    TerrainControl.log(LogMarker.FATAL, "Cannot make village a sandstone village!", e);
                 }
             }
         }

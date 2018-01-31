@@ -57,7 +57,7 @@ public final class ServerConfigProvider implements ConfigProvider
      * Holds all biomes that aren't virtual. These need to be sent to all
      * players on the server that have Terrain Control installed.
      */
-    private final Collection<LocalBiome> savedBiomes = new HashSet<LocalBiome>();
+    private final Collection<LocalBiome> savedBiomes = new HashSet<>();
 
     /**
      * The number of loaded biomes.
@@ -104,16 +104,15 @@ public final class ServerConfigProvider implements ConfigProvider
         if (!FileHelper.migrateFolder(oldWorldObjectsDir, worldObjectsDir))
         {
             TerrainControl.log(LogMarker.WARN, "Failed to move old world"
-                    + " custom objects from {} to {} in world {}."
-                    + " Please move the old objects manually.",
-                    oldWorldObjectsDir.getName(), worldObjectsDir.getName(), world.getName());
+                    + " custom objects from " + oldWorldObjectsDir.getName() + " to " + worldObjectsDir.getName() + " in world " + world.getName() + "."
+                    + " Please move the old objects manually.");
         }
 
         Map<String, CustomObjectLoader> objectLoaders = TerrainControl.getCustomObjectManager().getObjectLoaders();
 
         customObjects = new CustomObjectCollection(objectLoaders, worldObjectsDir);
         customObjects.setFallback(TerrainControl.getCustomObjectManager().getGlobalObjects());
-        TerrainControl.log(LogMarker.INFO, "{} world custom objects loaded.", customObjects.getAll().size());
+        TerrainControl.log(LogMarker.INFO, customObjects.getAll().size() + " world custom objects loaded.");
     }
 
     private SettingsMap loadWorldConfig()
@@ -129,7 +128,7 @@ public final class ServerConfigProvider implements ConfigProvider
     private void loadBiomes(SettingsMap worldConfigSettings)
     {
         // Establish folders
-        List<File> biomeDirs = new ArrayList<File>(2);
+        List<File> biomeDirs = new ArrayList<>(2);
         // TerrainControl/worlds/<WorldName>/<WorldBiomes/
         biomeDirs.add(new File(settingsDir, correctOldBiomeConfigFolder(settingsDir)));
         // TerrainControl/GlobalBiomes/
@@ -138,7 +137,7 @@ public final class ServerConfigProvider implements ConfigProvider
         FileHelper.makeFolders(biomeDirs);
 
         // Build a set of all biomes to load
-        Collection<BiomeLoadInstruction> biomesToLoad = new HashSet<BiomeLoadInstruction>();
+        Collection<BiomeLoadInstruction> biomesToLoad = new HashSet<>();
         biomesToLoad.addAll(world.getDefaultBiomes());
 
         // This adds all custombiomes that have been listed in WorldConfig to
@@ -161,8 +160,8 @@ public final class ServerConfigProvider implements ConfigProvider
         // Index all necessary settings
         String loadedBiomeNames = indexSettings(loadedBiomes);
 
-        TerrainControl.log(LogMarker.INFO, "{} biomes Loaded", biomesCount);
-        TerrainControl.log(LogMarker.DEBUG, "{}", loadedBiomeNames);
+        TerrainControl.log(LogMarker.INFO, biomesCount + " biomes Loaded");
+        TerrainControl.log(LogMarker.DEBUG, loadedBiomeNames.toString());
     }
 
     @Override
@@ -195,7 +194,7 @@ public final class ServerConfigProvider implements ConfigProvider
 
     private Map<String, BiomeConfig> readAndWriteSettings(SettingsMap worldConfigSettings, Map<String, BiomeConfigStub> biomeConfigStubs)
     {
-        Map<String, BiomeConfig> loadedBiomes = new HashMap<String, BiomeConfig>();
+        Map<String, BiomeConfig> loadedBiomes = new HashMap<>();
 
         for (BiomeConfigStub biomeConfigStub : biomeConfigStubs.values())
         {
@@ -243,7 +242,7 @@ public final class ServerConfigProvider implements ConfigProvider
     {
         StringBuilder loadedBiomeNames = new StringBuilder();
 
-        List<BiomeConfig> loadedBiomeList = new ArrayList<BiomeConfig>(loadedBiomes.values());
+        List<BiomeConfig> loadedBiomeList = new ArrayList<>(loadedBiomes.values());
         Collections.sort(loadedBiomeList, new Comparator<BiomeConfig>() {
             @Override
             public int compare(BiomeConfig a, BiomeConfig b) {
@@ -270,13 +269,13 @@ public final class ServerConfigProvider implements ConfigProvider
                 BiomeConfig replaceToConfig = loadedBiomes.get(biomeConfig.replaceToBiomeName);
                 if (replaceToConfig == null)
                 {
-                    TerrainControl.log(LogMarker.WARN, "Invalid ReplaceToBiomeName in biome {}: biome {} doesn't exist", biomeConfig.getName(),
-                            biomeConfig.replaceToBiomeName);
+                    TerrainControl.log(LogMarker.WARN,
+                            "Invalid ReplaceToBiomeName in biome " + biomeConfig.getName() + ": biome " + biomeConfig.replaceToBiomeName + " doesn't exist");
                     biomeConfig.replaceToBiomeName = "";
                 } else if (!replaceToConfig.replaceToBiomeName.isEmpty())
                 {
-                    TerrainControl.log(LogMarker.WARN, "Invalid ReplaceToBiomeName in biome {}: biome {} also has a ReplaceToBiomeName value",
-                            biomeConfig.getName(), biomeConfig.replaceToBiomeName);
+                    TerrainControl.log(LogMarker.WARN,
+                            "Invalid ReplaceToBiomeName in biome " + biomeConfig.getName() + ": biome " + biomeConfig.replaceToBiomeName + " also has a ReplaceToBiomeName value");
                     biomeConfig.replaceToBiomeName = "";
                 } else
                 {
@@ -316,7 +315,7 @@ public final class ServerConfigProvider implements ConfigProvider
             {
                 if (this.worldConfig.biomeColorMap == null)
                 {
-                    this.worldConfig.biomeColorMap = new HashMap<Integer, Integer>();
+                    this.worldConfig.biomeColorMap = new HashMap<>();
                 }
 
                 int color = biomeConfig.biomeColor;
@@ -352,8 +351,8 @@ public final class ServerConfigProvider implements ConfigProvider
         BiomeConfigStub extendedBiomeConfig = biomeConfigStubs.get(extendedBiomeName);
         if (extendedBiomeConfig == null)
         {
-            TerrainControl.log(LogMarker.WARN, "The biome {} tried to extend the biome {}, but that biome doesn't exist.",
-                    biomeConfigStub.getBiomeName(), extendedBiomeName);
+            TerrainControl.log(LogMarker.WARN,
+                    "The biome " + biomeConfigStub.getBiomeName() + " tried to extend the biome " + extendedBiomeName + ", but that biome doesn't exist.");
             return;
         }
 
@@ -361,8 +360,7 @@ public final class ServerConfigProvider implements ConfigProvider
         if (currentDepth > MAX_INHERITANCE_DEPTH)
         {
             TerrainControl.log(LogMarker.FATAL,
-                    "The biome {} cannot extend the biome {} - too much configs processed already! Cyclical inheritance?",
-                    biomeConfigStub.getBiomeName(), extendedBiomeConfig.getBiomeName());
+                    "The biome " + biomeConfigStub.getBiomeName() + " cannot extend the biome " + extendedBiomeConfig.getBiomeName() + " - too much configs processed already! Cyclical inheritance?");
         }
 
         if (!extendedBiomeConfig.biomeExtendsProcessed)
@@ -388,7 +386,8 @@ public final class ServerConfigProvider implements ConfigProvider
             if (!oldBiomeConfigs.renameTo(new File(settingsDir, biomeFolderName)))
             {
                 TerrainControl.log(LogMarker.WARN, "========================");
-                TerrainControl.log(LogMarker.WARN, "Fould old `BiomeConfigs` folder, but it could not be renamed to `", biomeFolderName, "`!");
+                TerrainControl.log(LogMarker.WARN,
+                        "Fould old `BiomeConfigs` folder, but it could not be renamed to `" + biomeFolderName + "`!");
                 TerrainControl.log(LogMarker.WARN, "Please rename the folder manually.");
                 TerrainControl.log(LogMarker.WARN, "========================");
                 biomeFolderName = "BiomeConfigs";

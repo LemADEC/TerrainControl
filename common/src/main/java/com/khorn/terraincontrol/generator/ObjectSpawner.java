@@ -41,7 +41,8 @@ public class ObjectSpawner
         // Null check
         if (biome == null)
         {
-            TerrainControl.log(LogMarker.DEBUG, "Unknown biome at {},{}  (chunk {}). Population failed.", x + 15, z + 15, chunkCoord);
+            TerrainControl.log(LogMarker.DEBUG,
+                    "Unknown biome at " + (x + 15) + "," + (z + 15) + "  (chunk " + chunkCoord + "). Population failed.");
             return;
         }
 

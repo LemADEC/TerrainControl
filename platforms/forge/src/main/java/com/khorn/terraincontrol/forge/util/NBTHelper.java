@@ -37,7 +37,7 @@ public class NBTHelper
             nmsChildTags = (Map<String, NBTBase>) mapField.get(nmsTag);
         } catch (Exception e)
         {
-            TerrainControl.printStackTrace(LogMarker.FATAL, e);
+            TerrainControl.log(LogMarker.FATAL, "Error reading NBT", e);
         }
 
         if (nmsChildTags == null)
@@ -133,7 +133,8 @@ public class NBTHelper
                     listTag.addTag(getNBTFromNMSTagCompound(null, (NBTTagCompound) nmsChildTag));
                     break;
                 default:
-                    TerrainControl.log(LogMarker.INFO, "Cannot convert list subtype {} from it's NMS value", new Object[] {listType});
+                    TerrainControl.log(LogMarker.INFO,
+                            "Cannot convert list subtype " + listType + " from it's NMS value");
                     break;
             }
         }
@@ -181,7 +182,7 @@ public class NBTHelper
     /**
      * Converts a net.minecraftwiki.wiki.NBTClass NBT compound tag into an
      * net.minecraft.server NBT compound tag.
-     * 
+     *
      * @param compoundTag Our tag.
      * @return The Minecraft tag.
      */

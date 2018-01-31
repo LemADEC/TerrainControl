@@ -13,8 +13,6 @@ import com.khorn.terraincontrol.logging.LogMarker;
 import com.khorn.terraincontrol.util.ChunkCoordinate;
 import com.khorn.terraincontrol.util.minecraftTypes.DefaultMaterial;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.List;
 import java.util.Random;
 
@@ -75,7 +73,7 @@ public class TerrainControl
      * LocalWorld, Random, boolean, int, int)
      */
     public static boolean fireResourceProcessEvent(Resource resource, LocalWorld world, Random random, boolean villageInChunk, int chunkX,
-                                                   int chunkZ)
+            int chunkZ)
     {
         return engine.fireResourceProcessEvent(resource, world, random, villageInChunk, chunkX, chunkZ);
     }
@@ -182,7 +180,6 @@ public class TerrainControl
     /**
      * Logs the messages with the given importance. Message will be
      * prefixed with [TerrainControl], so don't do that yourself.
-     * <p>
      * @param messages The messages to log.
      * @param level    The severity of the message
      */
@@ -192,18 +189,28 @@ public class TerrainControl
     }
 
     /**
+     * Logs a string message with the given importance. Message will be
+     * prefixed with [TerrainControl], so don't do that yourself.
+     *
+     * @param level   The severity of the message
+     * @param message The message, already formatted.
+     */
+    public static void log(LogMarker level, String message)
+    {
+        engine.getLogger().log(level, message);
+    }
+
+    /**
      * Logs a format string message with the given importance. Message will
      * be prefixed with [TerrainControl], so don't do that yourself.
      * <p>
-     * @param message The messages to log formatted similar to Logger.log()
-     *                with the same args.
+     * @param message The messages to log.
      * @param level   The severity of the message
-     * @param params  The parameters belonging to {0...} in the message
-     *                string
+     * @param error   Stack trace to print, may be null.
      */
-    public static void log(LogMarker level, String message, Object... params)
+    public static void log(LogMarker level, String message, Throwable error)
     {
-        engine.getLogger().log(level, message, params);
+        engine.getLogger().log(level, message, error);
     }
 
     /**
@@ -225,14 +232,12 @@ public class TerrainControl
      * [TerrainControl], so don't do that yourself.
      * <p>
      * @param ifLevel the Log level to test for
-     * @param message The messages to log formatted similar to
-     *                Logger.log() with the same args.
-     * @param params  The parameters belonging to {0...} in the message
-     *                string
+     * @param message The messages to log.
+     * @param error   Stack trace to log, may be null.
      */
-    public static void logIfLevel(LogMarker ifLevel, String message, Object... params)
+    public static void logIfLevel(LogMarker ifLevel, String message, Throwable error)
     {
-        engine.getLogger().logIfLevel(ifLevel, message, params);
+        engine.getLogger().logIfLevel(ifLevel, message, error);
     }
 
     /**
@@ -256,42 +261,12 @@ public class TerrainControl
      * <p>
      * @param min     The minimum Log level to test for
      * @param max     The maximum Log level to test for
-     * @param message The messages to log formatted similar to
-     *                Logger.log() with the same args.
-     * @param params  The parameters belonging to {0...} in the message
-     *                string
+     * @param message The messages to log
+     * @param error   Stack trace to log, may be null
      */
-    public static void logIfLevel(LogMarker min, LogMarker max, String message, Object... params)
+    public static void logIfLevel(LogMarker min, LogMarker max, String message, Throwable error)
     {
-        engine.getLogger().logIfLevel(min, max, message, params);
-    }
-
-    /**
-     * Prints the stackTrace of the provided Throwable object
-     * <p>
-     * @param level The log level to log this stack trace at
-     * @param e     The Throwable object to obtain stack trace information from
-     */
-    public static void printStackTrace(LogMarker level, Throwable e)
-    {
-        printStackTrace(level, e, Integer.MAX_VALUE);
-    }
-
-    /**
-     * Prints the stackTrace of the provided Throwable object to a certain
-     * depth
-     * <p>
-     * @param level    The log level to log this stack trace at
-     * @param e        The Throwable object to obtain stack trace information
-     *                 from
-     * @param maxDepth The max number of trace elements to print
-     */
-    public static void printStackTrace(LogMarker level, Throwable e, int maxDepth)
-    {
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(stringWriter);
-        e.printStackTrace(printWriter);
-        engine.getLogger().log(level, stringWriter.toString());
+        engine.getLogger().logIfLevel(min, max, message, error);
     }
 
     /**

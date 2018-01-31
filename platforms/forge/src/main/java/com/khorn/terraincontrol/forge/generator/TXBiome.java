@@ -8,9 +8,7 @@ import com.khorn.terraincontrol.configuration.standard.PluginStandardValues;
 import com.khorn.terraincontrol.configuration.standard.WorldStandardValues;
 import com.khorn.terraincontrol.forge.ForgeEngine;
 import com.khorn.terraincontrol.forge.util.MobSpawnGroupHelper;
-import com.khorn.terraincontrol.logging.LogMarker;
 import com.khorn.terraincontrol.util.helpers.StringHelper;
-
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
@@ -117,22 +115,16 @@ public class TXBiome extends Biome
                 // custom biome that is loaded after this virtual biome, so it
                 // will soon be registered
                 forgeEngine.registerForgeBiome(biomeIds.getGenerationId(), registryKey, customBiome);
-                TerrainControl.log(LogMarker.DEBUG, ",{},{},{}", biomeConfig.getName(), savedBiomeId,
-                        biomeIds.getGenerationId());
             } else
             {
                 ResourceLocation existingBiomeKey = Biome.REGISTRY.inverseObjectRegistry.get(existingBiome);
                 forgeEngine.registerForgeBiome(biomeIds.getSavedId(), registryKey, customBiome);
                 forgeEngine.registerForgeBiome(biomeIds.getSavedId(), existingBiomeKey, existingBiome);
-                TerrainControl.log(LogMarker.DEBUG, ",{},{},{}", biomeConfig.getName(), savedBiomeId,
-                        biomeIds.getGenerationId());
             }
         } else if (savedBiomeId < 256 && !biomeIds.isVirtual())
         {
             // Normal insertion
             forgeEngine.registerForgeBiome(savedBiomeId, registryKey, customBiome);
-            TerrainControl.log(LogMarker.DEBUG, ",{},{},{}", biomeConfig.getName(), savedBiomeId,
-                    biomeIds.getGenerationId());
         }
 
         if (customBiome.getRegistryName() == null) {

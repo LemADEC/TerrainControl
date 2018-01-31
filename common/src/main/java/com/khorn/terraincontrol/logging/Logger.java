@@ -23,19 +23,30 @@ public abstract class Logger
      */
     public void log(LogMarker level, List<String> message)
     {
-        log(level, "{}", (Object) StringHelper.join(message, " "));
+        log(level, StringHelper.join(message, "\n"));
     }
-
+    
     /**
-     * Logs a format string message with the given importance. Message will be
+     * Logs a string message with the given importance. Message will be
      * prefixed with [TerrainControl], so don't do that yourself.
      *
      * @param level   The severity of the message
-     * @param message The messages to log formatted similar to Logger.log() with
-     *                the same args.
-     * @param params  The parameters belonging to {0...} in the message string
+     * @param message The message, already formatted.
      */
-    public abstract void log(LogMarker level, String message, Object... params);
+    public void log(LogMarker level, String message)
+    {
+    	log(level, message, null);
+    }
+
+    /**
+     * Logs a string message with the given importance. Message will be
+     * prefixed with [TerrainControl], so don't do that yourself.
+     *
+     * @param level   The severity of the message
+     * @param message The message, already formatted.
+     * @param error   A stacktrace to print, may be null.
+     */
+    public abstract void log(LogMarker level, String message, Throwable error);
 
     /**
      * Logs the message(s) with the given importance <b>ONLY IF</b> logger level
@@ -57,14 +68,13 @@ public abstract class Logger
      * [TerrainControl], so don't do that yourself.
      *
      * @param ifLevel the Log level to test for
-     * @param message The messages to log formatted similar to Logger.log() with
-     *                the same args.
-     * @param params  The parameters belonging to {0...} in the message string
+     * @param message The messages to log.
+     * @param error   Stacktrace to print, may be null.
      */
-    public void logIfLevel(LogMarker ifLevel, String message, Object... params)
+    public void logIfLevel(LogMarker ifLevel, String message, Throwable error)
     {
         if (minimumLevel == ifLevel)
-            log(ifLevel, message, params);
+            log(ifLevel, message, error);
     }
 
     /**
@@ -89,14 +99,13 @@ public abstract class Logger
      *
      * @param min     The minimum Log level to test for
      * @param max     The maximum Log level to test for
-     * @param message The messages to log formatted similar to Logger.log() with
-     *                the same args.
-     * @param params  The parameters belonging to {0...} in the message string
+     * @param message The messages to log.
+     * @param error   A stacktrace to print, may be null.
      */
-    public void logIfLevel(LogMarker min, LogMarker max, String message, Object... params)
+    public void logIfLevel(LogMarker min, LogMarker max, String message, Throwable error)
     {
         if (minimumLevel.compareTo(max) <= 0 && minimumLevel.compareTo(min) >= 0)
-            log(max, message, params);
+            log(max, message, error);
     }
 
 }

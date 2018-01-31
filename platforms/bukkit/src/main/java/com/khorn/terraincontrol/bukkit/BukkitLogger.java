@@ -1,25 +1,25 @@
 package com.khorn.terraincontrol.bukkit;
 
-import com.khorn.terraincontrol.configuration.standard.PluginStandardValues;
 import com.khorn.terraincontrol.logging.LogMarker;
 import com.khorn.terraincontrol.logging.Logger;
-import org.apache.logging.log4j.LogManager;
+
+import java.util.Objects;
+import java.util.logging.Level;
 
 /**
  * Implementation of {@link Logger} for Bukkit.
  */
 final class BukkitLogger extends Logger
 {
-    private final String logPrefix = "[" + PluginStandardValues.PLUGIN_NAME + "] ";
-    private final org.apache.logging.log4j.Logger logger = LogManager.getLogger(PluginStandardValues.PLUGIN_NAME);
+    private final java.util.logging.Logger logger;
 
     BukkitLogger(java.util.logging.Logger logger)
     {
-
+        this.logger = Objects.requireNonNull(logger, "logger");
     }
 
     @Override
-    public void log(LogMarker level, String message, Object... params)
+    public void log(LogMarker level, String message, Throwable error)
     {
         if (minimumLevel.compareTo(level) < 0)
         {
@@ -29,26 +29,26 @@ final class BukkitLogger extends Logger
         switch (level)
         {
             case FATAL:
-                logger.fatal(logPrefix + message, params);
+                logger.log(Level.SEVERE, message, error);
                 break;
             case ERROR:
-                logger.error(logPrefix + message, params);
+                logger.log(Level.SEVERE, message, error);
                 break;
             case WARN:
-                logger.warn(logPrefix + message, params);
+                logger.log(Level.WARNING, message, error);
                 break;
             case INFO:
-                logger.info(logPrefix + message, params);
+                logger.log(Level.INFO, message, error);
                 break;
             case DEBUG:
-                logger.info(logPrefix + "[Debug] " + message, params);
+                logger.log(Level.FINE, message, error);
                 break;
             case TRACE:
-                logger.trace(logPrefix + "[Trace] " + message, params);
+                logger.log(Level.FINEST, message, error);
                 break;
             default:
                 // Unknown log level, should never happen
-                logger.info(logPrefix + message, params); // Still log the message
+                logger.log(Level.INFO, message, error);
                 throw new RuntimeException("Unknown log marker: " + level);
         }
     }

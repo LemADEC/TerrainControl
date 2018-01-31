@@ -39,8 +39,8 @@ public class TXPlugin extends JavaPlugin
      */
     public boolean cleanupOnDisable = false;
 
-    public final HashMap<String, BukkitWorld> worlds = new HashMap<String, BukkitWorld>();
-    private final HashMap<String, BukkitWorld> notInitedWorlds = new HashMap<String, BukkitWorld>();
+    public final HashMap<String, BukkitWorld> worlds = new HashMap<>();
+    private final HashMap<String, BukkitWorld> notInitedWorlds = new HashMap<>();
 
     @Override
     public void onDisable()
@@ -89,8 +89,7 @@ public class TXPlugin extends JavaPlugin
                 registerStructure.invoke(null, VillageStart.class, StructureNames.VILLAGE);
             } catch (Exception e)
             {
-                TerrainControl.log(LogMarker.FATAL, "Failed to register structures:");
-                TerrainControl.printStackTrace(LogMarker.FATAL, e);
+                TerrainControl.log(LogMarker.FATAL, "Failed to register structures:", e);
             }
 
             // Start the engine
@@ -124,11 +123,11 @@ public class TXPlugin extends JavaPlugin
         BukkitWorld world = worlds.get(worldName);
         if (world != null)
         {
-            TerrainControl.log(LogMarker.DEBUG, "Already enabled for ''{}''", (Object) worldName);
+            TerrainControl.log(LogMarker.DEBUG, "Already enabled for \"" + worldName + "\"");
             return world.getChunkGenerator();
         }
 
-        TerrainControl.log(LogMarker.INFO, "Starting to enable world ''{}''...", (Object) worldName);
+        TerrainControl.log(LogMarker.INFO, "Starting to enable world \"" + worldName + "\"...");
 
         // Create BukkitWorld instance
         BukkitWorld localWorld = new BukkitWorld(worldName);
@@ -166,7 +165,7 @@ public class TXPlugin extends JavaPlugin
         if (!baseFolder.exists())
         {
             if (!baseFolder.mkdirs())
-                TerrainControl.log(LogMarker.FATAL, "Can't create folder ", baseFolder.getName());
+                TerrainControl.log(LogMarker.FATAL, "Can't create folder " + baseFolder.getName());
         }
         return baseFolder;
     }
@@ -183,7 +182,7 @@ public class TXPlugin extends JavaPlugin
             this.worlds.put(world.getName(), bukkitWorld);
 
             // Show message
-            TerrainControl.log(LogMarker.INFO, "World {} is now enabled!", (Object) bukkitWorld.getName());
+            TerrainControl.log(LogMarker.INFO, "World \"" + bukkitWorld.getName() + "\" is now enabled!");
         }
     }
 
@@ -201,7 +200,7 @@ public class TXPlugin extends JavaPlugin
             this.worlds.remove(world.getName());
         }
         // Show message
-        TerrainControl.log(LogMarker.INFO, "World {} is now unloaded!", (Object) world.getName());
+        TerrainControl.log(LogMarker.INFO, "World \"" + world.getName() + "\" is now unloaded!");
     }
 
 }

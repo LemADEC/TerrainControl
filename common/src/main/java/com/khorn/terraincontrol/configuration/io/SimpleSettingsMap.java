@@ -41,8 +41,8 @@ public final class SimpleSettingsMap implements SettingsMap
     public SimpleSettingsMap(String name, boolean isNewConfig)
     {
         this.name = name;
-        this.settingsCache = new LinkedHashMap<String, RawSettingValue>();
-        this.configFunctions = new ArrayList<RawSettingValue>();
+        this.settingsCache = new LinkedHashMap<>();
+        this.configFunctions = new ArrayList<>();
         this.isNewConfig = isNewConfig;
     }
 
@@ -76,7 +76,7 @@ public final class SimpleSettingsMap implements SettingsMap
     @Override
     public <T> List<ConfigFunction<T>> getConfigFunctions(T holder, boolean useFallback)
     {
-        List<ConfigFunction<T>> result = new ArrayList<ConfigFunction<T>>(configFunctions.size());
+        List<ConfigFunction<T>> result = new ArrayList<>(configFunctions.size());
         ConfigFunctionsManager manager = TerrainControl.getConfigFunctionsManager();
         for (RawSettingValue configFunctionLine : configFunctions)
         {
@@ -95,10 +95,8 @@ public final class SimpleSettingsMap implements SettingsMap
             result.add(function);
             if (function instanceof ErroredFunction)
             {
-                TerrainControl.log(LogMarker.WARN, "Invalid resource {} in {} on line {}: {}",
-                        functionName, this.name,
-                        configFunctionLine.getLineNumber(),
-                        ((ErroredFunction<?>) function).error);
+                TerrainControl.log(LogMarker.WARN,
+                        "Invalid resource " + functionName + " in " + this.name + " on line " + configFunctionLine.getLineNumber() + ": " + ((ErroredFunction<?>) function).error);
             }
         }
 
@@ -142,8 +140,8 @@ public final class SimpleSettingsMap implements SettingsMap
                 return setting.read(stringValue);
             } catch (InvalidConfigException e)
             {
-                TerrainControl.log(LogMarker.ERROR, "The value \"{}\" is not valid for the setting {} in {} on line {}: {}",
-                        stringValue, setting, name, stringWithLineNumber.getLineNumber(), e.getMessage());
+                TerrainControl.log(LogMarker.ERROR,
+                        "The value \"" + stringValue + "\" is not valid for the setting " + setting + " in " + name + " on line " + stringWithLineNumber.getLineNumber() + ": " + e.getMessage());
             }
         }
 

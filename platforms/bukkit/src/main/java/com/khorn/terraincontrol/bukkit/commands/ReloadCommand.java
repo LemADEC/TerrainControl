@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ReloadCommand extends BaseCommand
 {
-    
+
     public ReloadCommand(TXPlugin _plugin)
     {
         super(_plugin);
@@ -37,12 +37,10 @@ public class ReloadCommand extends BaseCommand
         sender.sendMessage(MESSAGE_COLOR + "Configs for world '" + world.getName() + "' reloaded");
         if (sender instanceof Player)
         {
-            TerrainControl.log(LogMarker.INFO, "{} reloaded the config files for world '{}'.", new Object[]
-            {
-                sender.getName(), world.getName()
-            });
+            TerrainControl.log(LogMarker.INFO,
+                    sender.getName() + " reloaded the config files for world \"" + world.getName() + "\".");
         }
         return true;
     }
-    
+
 }
