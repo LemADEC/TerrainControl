@@ -14,6 +14,9 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SPacketCustomPayload;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
@@ -45,7 +48,29 @@ public class PlayerTracker
 
         EntityPlayerMP player = (EntityPlayerMP) event.player;
 
-        LocalWorld worldTC = this.worldLoader.getWorld(player.getEntityWorld());
+        this.sendWorldInformation(player.getEntityWorld(), player);
+    }
+
+    @SubscribeEvent
+    public void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+        if (!(event.player instanceof EntityPlayerMP)) {
+            return;
+        }
+
+        final MinecraftServer server = event.player.getEntityWorld().getMinecraftServer();
+        if (server == null) {
+            return;
+        }
+
+        if (event.fromDim != event.toDim) {
+            final WorldServer toWorld = server.getWorld(event.toDim);
+
+            this.sendWorldInformation(toWorld, (EntityPlayerMP) event.player);
+        }
+    }
+
+    private void sendWorldInformation(World world, EntityPlayerMP serverPlayer) {
+        LocalWorld worldTC = this.worldLoader.getWorld(world);
         if (worldTC == null)
         {
             // World not loaded
@@ -64,7 +89,7 @@ public class PlayerTracker
             ConfigToNetworkSender.send(configs, stream);
         } catch (IOException e)
         {
-            TerrainControl.log(LogMarker.FATAL, "Failed to send network packet to the player named " + player.getName(),
+            TerrainControl.log(LogMarker.FATAL, "Failed to send network packet to the player named " + serverPlayer.getName(),
                     e);
         }
 
@@ -72,7 +97,7 @@ public class PlayerTracker
         SPacketCustomPayload packet = new SPacketCustomPayload(PluginStandardValues.ChannelName, mojangBuffer);
 
         // Send the packet
-        player.connection.sendPacket(packet);
+        serverPlayer.connection.sendPacket(packet);
     }
 
 }
