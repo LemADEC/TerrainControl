@@ -39,13 +39,7 @@ public class TXWorldType extends WorldType
     @Override
     public BiomeProvider getBiomeProvider(World mcWorld)
     {
-        // Ignore client worlds
-        if (mcWorld.isRemote)
-        {
-            return super.getBiomeProvider(mcWorld);
-        }
-
-        ForgeWorld world = this.worldLoader.getOrCreateForgeWorld(mcWorld);
+        final ForgeWorld world = this.worldLoader.getOrCreateForgeWorld(mcWorld);
         if (world == null)
         {
             return super.getBiomeProvider(mcWorld);

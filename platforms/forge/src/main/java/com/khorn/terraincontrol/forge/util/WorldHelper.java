@@ -2,8 +2,12 @@ package com.khorn.terraincontrol.forge.util;
 
 import com.khorn.terraincontrol.LocalWorld;
 import com.khorn.terraincontrol.TerrainControl;
+import com.khorn.terraincontrol.forge.ForgeBiome;
+import com.khorn.terraincontrol.forge.ForgeWorld;
 import com.khorn.terraincontrol.forge.generator.TXBiome;
 
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.DimensionManager;
@@ -58,16 +62,31 @@ public abstract class WorldHelper
      */
     public static String getName(World world)
     {
-        World defaultWorld = DimensionManager.getWorld(0);
-        // If vanilla or we are dealing with an implementation that supports
-        // multiple save handlers, return the world name
-        if (isVanillaWorld(world) || (defaultWorld != null && world.getWorldInfo() != null && world.getSaveHandler() != defaultWorld.getSaveHandler()))
-        {
-            return world.getWorldInfo().getWorldName();
-        }
+        if (!world.isRemote) {
+            World defaultWorld = DimensionManager.getWorld(0);
+            // If vanilla or we are dealing with an implementation that supports
+            // multiple save handlers, return the world name
+            if (isVanillaWorld(world) || (defaultWorld != null && world.getWorldInfo() != null && world.getSaveHandler() != defaultWorld
+                    .getSaveHandler())) {
+                return world.getWorldInfo().getWorldName();
+            }
 
-        // This is the best we can do for Forge
-        return world.provider.getSaveFolder();
+            // This is the best we can do for Forge
+            return world.provider.getSaveFolder();
+        } else {
+            return "MpServer";
+        }
+    }
+
+    public static Biome getBiome(LocalWorld world, BlockPos pos) {
+        if (world instanceof ForgeWorld) {
+            if (((ForgeWorld) world).getWorld().isRemote) {
+                System.err.println("On Client thread");
+            }
+        }
+        final ForgeBiome biome = (ForgeBiome) world.getBiome(pos.getX(), pos.getZ());
+
+        return biome.getHandle();
     }
 
     private WorldHelper()

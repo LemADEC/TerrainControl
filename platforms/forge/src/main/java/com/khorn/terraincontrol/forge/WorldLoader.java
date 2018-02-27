@@ -135,53 +135,48 @@ public final class WorldLoader
     }
 
     @Nullable
-    public ForgeWorld getOrCreateForgeWorld(String worldName)
-    {
+    public ForgeWorld getOrCreateForgeWorld(String worldName) {
+        ForgeWorld world = this.getWorld(worldName);
+        if (world != null) {
+            return world;
+        }
+
         File worldConfigsFolder = this.getWorldDir(worldName);
-        if (!worldConfigsFolder.exists())
-        {
+        if (!worldConfigsFolder.exists()) {
             // TerrainControl is probably not enabled for this world
             return null;
         }
 
-        ForgeWorld world = this.getWorld(worldName);
-        if (world == null)
-        {
-            world = new ForgeWorld(worldName);
-            ServerConfigProvider config = this.configMap.get(worldName);
-            if (config == null)
-            {
-                TerrainControl.log(LogMarker.INFO, "Loading configs for world \"" + world.getName() + "\"..");
-                config = new ServerConfigProvider(worldConfigsFolder, world);
-                // Remove fake biome to avoid Forge detecting it on restart and causing level.dat to be restored
-                Iterator<Map.Entry<ResourceLocation, Biome>> iterator = Biome.REGISTRY.registryObjects.entrySet().iterator();
-                while (iterator.hasNext())
-                {
-                    Map.Entry<ResourceLocation, Biome> mapEntry = iterator.next();
-                    Biome biome = mapEntry.getValue();
-                    int biomeId = Biome.REGISTRY.underlyingIntegerMap.getId(biome);
-                    if (biomeId == TXBiome.MAX_TC_BIOME_ID)
-                    {
-                        iterator.remove();
-                    }
+        world = new ForgeWorld(worldName);
+        ServerConfigProvider config = this.configMap.get(worldName);
+        if (config == null) {
+            TerrainControl.log(LogMarker.INFO, "Loading configs for world \"" + world.getName() + "\"..");
+            config = new ServerConfigProvider(worldConfigsFolder, world);
+            // Remove fake biome to avoid Forge detecting it on restart and causing level.dat to be restored
+            Iterator<Map.Entry<ResourceLocation, Biome>> iterator = Biome.REGISTRY.registryObjects.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<ResourceLocation, Biome> mapEntry = iterator.next();
+                Biome biome = mapEntry.getValue();
+                int biomeId = Biome.REGISTRY.underlyingIntegerMap.getId(biome);
+                if (biomeId == TXBiome.MAX_TC_BIOME_ID) {
+                    iterator.remove();
                 }
-                IntIdentityHashBiMap<Biome> underlyingIntegerMap = new IntIdentityHashBiMap<>(256);
-                Iterator<Biome> biomeIterator = Biome.REGISTRY.underlyingIntegerMap.iterator();
-                while (biomeIterator.hasNext())
-                {
-                    Biome biome = biomeIterator.next();
-                    int biomeId = Biome.REGISTRY.underlyingIntegerMap.getId(biome);
-                    if (biomeId == TXBiome.MAX_TC_BIOME_ID)
-                    {
-                        continue;
-                    }
-                    underlyingIntegerMap.put(biome, biomeId);
-                }
-                Biome.REGISTRY.underlyingIntegerMap = underlyingIntegerMap;
             }
-            world.provideConfigs(config);
-            this.worlds.put(worldName, world);
+            IntIdentityHashBiMap<Biome> underlyingIntegerMap = new IntIdentityHashBiMap<>(256);
+            Iterator<Biome> biomeIterator = Biome.REGISTRY.underlyingIntegerMap.iterator();
+            while (biomeIterator.hasNext()) {
+                Biome biome = biomeIterator.next();
+                int biomeId = Biome.REGISTRY.underlyingIntegerMap.getId(biome);
+                if (biomeId == TXBiome.MAX_TC_BIOME_ID) {
+                    continue;
+                }
+                underlyingIntegerMap.put(biome, biomeId);
+            }
+            Biome.REGISTRY.underlyingIntegerMap = underlyingIntegerMap;
         }
+
+        world.provideConfigs(config);
+        this.worlds.put(worldName, world);
 
         return world;
     }
@@ -206,6 +201,7 @@ public final class WorldLoader
         ForgeWorld world = new ForgeWorld(ConfigFile.readStringFromStream(wrappedStream));
         ClientConfigProvider configs = new ClientConfigProvider(wrappedStream, world);
         world.provideClientConfigs(mcWorld, configs);
-        this.worlds.put(world.getName(), world);
+        this.worlds.put("MpServer", world); // Can only be one world on client and it is always MpServer as the name when on dedicated server
+        TXPlugin.instance.worldType.getBiomeProvider(mcWorld);
     }
 }

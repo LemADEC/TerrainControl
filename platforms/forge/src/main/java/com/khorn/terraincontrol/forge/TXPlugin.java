@@ -36,7 +36,11 @@ import java.io.File;
 @Mod(modid = "terraincontrol", name = "TerrainControl", acceptableRemoteVersions = "*")
 public class TXPlugin
 {
+    @Mod.Instance
+    public static TXPlugin instance;
+
     private WorldLoader worldLoader;
+    public TXWorldType worldType;
 
     @EventHandler
     public void load(FMLInitializationEvent event)
@@ -47,7 +51,7 @@ public class TXPlugin
 
         // Create the world type. WorldType registers itself in the constructor
         // - that is Mojang code, so don't blame me
-        new TXWorldType(this.worldLoader);
+        this.worldType = new TXWorldType(this.worldLoader);
 
         // Start TerrainControl engine
         final ForgeEngine engine = new ForgeEngine(this.worldLoader);

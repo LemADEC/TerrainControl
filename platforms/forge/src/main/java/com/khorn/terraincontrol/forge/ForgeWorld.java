@@ -749,7 +749,9 @@ public class ForgeWorld implements LocalWorld
     @Override
     public LocalBiome getCalculatedBiome(int x, int z)
     {
-        return getBiomeById(this.biomeGenerator.getBiome(x, z));
+        final int biomeId = this.biomeGenerator.getBiome(x, z);
+
+        return getBiomeById(biomeId);
     }
 
     @Override
