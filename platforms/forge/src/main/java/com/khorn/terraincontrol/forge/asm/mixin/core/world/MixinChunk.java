@@ -2,6 +2,8 @@ package com.khorn.terraincontrol.forge.asm.mixin.core.world;
 
 import com.khorn.terraincontrol.LocalWorld;
 import com.khorn.terraincontrol.TerrainControl;
+import com.khorn.terraincontrol.forge.ForgeEngine;
+import com.khorn.terraincontrol.forge.TXPlugin;
 import com.khorn.terraincontrol.forge.util.WorldHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -28,7 +30,8 @@ public abstract class MixinChunk {
     public Biome onGetBiome(int biomeId, BlockPos pos, BiomeProvider provider) {
         // TODO Need to cache this wrap
         if (this.tcWorld == null) {
-            this.tcWorld = TerrainControl.getEngine().getWorld(this.world.getWorldInfo().getWorldName());
+            this.tcWorld = ((ForgeEngine) TerrainControl.getEngine()).getWorldLoader().getOrCreateForgeWorld(this.world);
+            TXPlugin.instance.worldType.getBiomeProvider(world);
             //this.hasLookedUpTCWorld = true;
         }
 

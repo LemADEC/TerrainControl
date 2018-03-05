@@ -57,6 +57,10 @@ public class ForgeEngine extends TerrainControlEngine
         }
     }
 
+    public WorldLoader getWorldLoader() {
+        return this.worldLoader;
+    }
+
     @Override
     public LocalWorld getWorld(String name)
     {

@@ -22,6 +22,8 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PlayerTracker
 {
@@ -48,7 +50,14 @@ public class PlayerTracker
 
         EntityPlayerMP player = (EntityPlayerMP) event.player;
 
-        this.sendWorldInformation(player.getEntityWorld(), player);
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                sendWorldInformation(player.getEntityWorld(), player);
+
+                this.cancel();
+            }
+        }, 3000);
     }
 
     @SubscribeEvent
