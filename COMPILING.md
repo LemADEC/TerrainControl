@@ -46,8 +46,8 @@ and import the TerrainControl directory.
 In the Forge version of TerrainControl two classes are included to help you run
 the project from your IDE. Click `Run` -> `Edit Configurations...` -> `+`
 -> `Application`. Use `forge` as the module (for the classpath) and use either
-the `com.khorn.terraincontrol.forge.launch.TCLaunchForgeClient` or the
-`com.khorn.terraincontrol.forge.launch.TCLaunchForgeServer` class and
+the `com.pg85.otg.forge.launch.OTGLaunchForgeClient` or the
+`com.pg85.otg.forge.launch.OTGLaunchForgeServer` class and
 press the Run button in the menu bar to run the Forge client or server.
 
 ### Formatting the source code
@@ -77,11 +77,11 @@ Now import the project as a Gradle project into IntelliJ.
 
 To launch the Forge client version of TerrainControl from your IDE, click `Run`
 -> `Edit Configurations...` -> `+` -> `Application`. Choose a name, use
-`com.khorn.terraincontrol.forge.launch.TCLaunchForgeClient` as the main
+`com.pg85.otg.forge.launch.OTGLaunchForgeClient` as the main
 class and select `forge` for the option `Use classpath of module`.
 
 To launch the server version, repeat the above steps, but use the main class
-`com.khorn.terraincontrol.forge.launch.TCLaunchForgeServer`.
+`com.pg85.otg.forge.launch.OTGLaunchForgeServer`.
 
 
 [ZIP file]: https://github.com/MCTCP/TerrainControl/archive/master.zip

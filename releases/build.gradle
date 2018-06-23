@@ -1,4 +1,4 @@
-// Build script for Terrain Control releases
+// Build script for Open Terrain Generator releases
 // This script simply packs together the Bukkit and Forge jars
 
 import java.util.zip.*;

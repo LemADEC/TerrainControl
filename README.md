@@ -1,7 +1,7 @@
 TerrainControl [![Build Status](https://travis-ci.org/AlmuraDev/TerrainControl.svg?branch=master)](https://travis-ci.org/AlmuraDev/TerrainControl)
 =============
 
-TerrainControl is an advanced world generator for Minecraft. Through various configuration files it gives the user control over almost every aspect of Minecraft terrain generation, with no knowledge of Java required. It can be used on Bukkit or Forge servers and on singleplayer with Forge. Terrain Control is the successor to the old <a href="http://www.minecraftforum.net/topic/313991-phoenixterrainmod/">PhoenixTerrainMod</a>, which was based on the popular <a href="http://www.minecraftforum.net/topic/71565-biomemod/">BiomeTerrainMod</a>. 
+TerrainControl is an advanced world generator for Minecraft. Through various configuration files it gives the user control over almost every aspect of Minecraft terrain generation, with no knowledge of Java required. It can be used on Bukkit or Forge servers and on singleplayer with Forge. Open Terrain Generator is the successor to the old <a href="http://www.minecraftforum.net/topic/313991-phoenixterrainmod/">PhoenixTerrainMod</a>, which was based on the popular <a href="http://www.minecraftforum.net/topic/71565-biomemod/">BiomeTerrainMod</a>.
 
 <ul>
 <li>Control horizontal and vertical noise of terrain generation</li>

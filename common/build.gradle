@@ -1,4 +1,4 @@
-// Build script for the Common parts of Terrain Control
+// Build script for the Common parts of Open Terrain Generator
 
 apply plugin: 'java'
 

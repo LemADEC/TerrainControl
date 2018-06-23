@@ -28,6 +28,7 @@ dist
 out
 localexport.jardesc
 forgeInfo
+/classes/
 
 # Minecraft, Bukkit and Forge files
 # (Eclipse uses ./plaftforms/forge/ as the root when running Forge, IntelliJ uses ./)

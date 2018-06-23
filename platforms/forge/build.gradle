@@ -1,4 +1,4 @@
-// Build script for Terrain Control for Forge
+// Build script for Open Terrain Generator for Forge
 
 buildscript
         {
@@ -45,7 +45,7 @@ minecraft {
     runDir = 'run'
     useDepAts = true
 
-    coreMod = 'com.khorn.terraincontrol.forge.TerrainControlLoadingPlugin'
+    coreMod = 'com.pg85.otg.forge.TerrainControlLoadingPlugin'
 
     // We don't use the obfuscated dev jar currently
     makeObfSourceJar = false
@@ -104,7 +104,7 @@ processResources
                     }
         }
 
-// Include all Terrain Control files in the jar
+// Include all Open Terrain Generator files in the jar
 jar
         {
             classifier = 'base'
@@ -118,7 +118,7 @@ jar
                         'Created-By': System.properties['java.vm.version'] + ' (' + System.properties['java.vm.vendor'] + ')',
                         'Implementation-Title': project.name,
                         'Implementation-Version': version,
-                        "FMLCorePlugin": "com.khorn.terraincontrol.forge.TerrainControlLoadingPlugin",
+                        "FMLCorePlugin": "com.pg85.otg.forge.TerrainControlLoadingPlugin",
                         "FMLCorePluginContainsFMLMod": true,
                         "ForceLoadAsMod": true,
                         "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
